@@ -4,22 +4,34 @@
 // Author: hannes
 //
 
+whitespace = _{ " " }
+comment = _{"//" ~ whitespace? ~ (ASCII_ALPHANUMERIC | whitespace)* }
 name = { ASCII_ALPHANUMERIC+ }
-amount = { number ~ ("|" ~ amount)? }
-value = { (amount | name) }
-number = { (ASCII_DIGIT | "/")+ }
+text = { (ASCII_ALPHANUMERIC | "-" | " ")* }
+ingredient_separator = { "|" }
+amount = _{ (number ~ ingredient_separator ~ amount) | number }
+value = { ( amount | name ) }
+num_value = { ASCII_DIGIT+ }
+number = { (("/" ~ num_value) | num_value)+ }
 scaling = { "*" }
-amount_bracket = { "{" ~ amount ~ scaling? ~ unit_amount? ~ "}"}
-unit_amount = { "%" ~ name }
-bracket = { "{}" }
-cookware = {"#" ~ name ~ ((" " ~ name)+ ~ bracket)?}
-property = { name ~ ":" ~ " "? ~ value}
-metadata = { ">>" ~ WHITE_SPACE ~ property}
-ingredient = { "@" ~ name ~ ((" " ~ name)+ ~ (amount_bracket | bracket) | amount_bracket) }
-line = { !(">>") ~ (ASCII_ALPHANUMERIC | " " | ingredient | cookware)* }
+amount_bracket = _{ "{" ~ amount ~ scaling? ~ unit_amount? ~ "}"}
+unit = { ASCII_ALPHANUMERIC+ }
+unit_amount = _{ "%" ~ unit }
+bracket = _{ "{}" }
+modified = {"(" ~ text ~ ")"}
+white_text = _{ whitespace ~ text ~ white_text? }
+cookware = { "#" ~ name ~ (white_text ~ bracket)? }
+property = { name ~ whitespace? ~ ":" ~ whitespace? ~ value}
+metadata = { ">>" ~ whitespace? ~ property}
+ingredient = { "@" ~ name ~ ((whitespace ~ text)+ ~ (amount_bracket | bracket) | amount_bracket?) ~ modified? }
+timer = { "~" ~ amount_bracket}
+line = {!(">>") ~ (ingredient | cookware | timer | ANY )+ }
+line_wrapper = _{ (comment? ~ NEWLINE? ~ (metadata | line) ~ whitespace? ~ comment? ~ NEWLINE?) | comment? ~ NEWLINE | NEWLINE+ }
 cook_lang = {
 SOI ~
-(metadata ~ NEWLINE)* ~
-(line ~ NEWLINE)*
-~ EOI
+// (comment? ~ NEWLINE)* ~
+// (metadata? ~ whitespace? ~ comment? ~ NEWLINE)*  ~
+// (line? ~ whitespace? ~ comment? ~ NEWLINE)* ~
+line_wrapper* ~
+EOI
  }
