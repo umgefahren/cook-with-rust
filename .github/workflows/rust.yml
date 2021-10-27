@@ -21,6 +21,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
       - name: Check
         run: cargo check
       - name: Build
