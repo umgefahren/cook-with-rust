@@ -9,19 +9,20 @@ use std::collections::HashMap;
 use std::ops::Add;
 use std::str::FromStr;
 use uuid::Uuid;
+use serde::{Serialize, Deserialize};
 
 #[derive(Parser)]
 #[grammar = "../CookLang.pest"]
 pub struct CookParser;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Recipe {
     source: String,
     metadata: Metadata,
     instruction: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Metadata {
     servings: Option<Vec<usize>>,
     ominous: HashMap<String, String>,
@@ -37,19 +38,19 @@ impl Metadata {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Timer {
     amount: f64,
     unit: String,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct IngredientSpecifier {
     ingredient: String,
     amount_in_step: Amount,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Ingredient {
     name: String,
     id: Uuid,
@@ -57,7 +58,7 @@ pub struct Ingredient {
     unit: Option<String>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 enum Amount {
     Multi(f64),
     Servings(Vec<f64>),
@@ -365,7 +366,7 @@ Start the timer ~{10%minutes}\n\
 ",
         );
 
-        let recipe = parse(&test_rec).unwrap();
+        let _recipe = parse(&test_rec).unwrap();
     }
 
     #[test]
