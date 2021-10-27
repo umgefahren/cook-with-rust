@@ -1,0 +1,25 @@
+//
+// Created by intellij-pest on 2021-10-27
+// CookLang
+// Author: hannes
+//
+
+name = { ASCII_ALPHANUMERIC+ }
+amount = { number ~ ("|" ~ amount)? }
+value = { (amount | name) }
+number = { (ASCII_DIGIT | "/")+ }
+scaling = { "*" }
+amount_bracket = { "{" ~ amount ~ scaling? ~ unit_amount? ~ "}"}
+unit_amount = { "%" ~ name }
+bracket = { "{}" }
+cookware = {"#" ~ name ~ ((" " ~ name)+ ~ bracket)?}
+property = { name ~ ":" ~ " "? ~ value}
+metadata = { ">>" ~ WHITE_SPACE ~ property}
+ingredient = { "@" ~ name ~ ((" " ~ name)+ ~ (amount_bracket | bracket) | amount_bracket) }
+line = { !(">>") ~ (ASCII_ALPHANUMERIC | " " | ingredient | cookware)* }
+cook_lang = {
+SOI ~
+(metadata ~ NEWLINE)* ~
+(line ~ NEWLINE)*
+~ EOI
+ }
