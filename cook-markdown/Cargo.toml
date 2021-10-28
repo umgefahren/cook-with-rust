@@ -8,4 +8,4 @@ description = "A CookLang to Markdown transpiling library."
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cook-with-rust-parser = {path = "../parser" }
+cook-with-rust-parser = {path = "../parser" , version = "0.0.4"}
