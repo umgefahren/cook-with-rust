@@ -1,6 +1,6 @@
 [package]
 name = "cook-with-rust-parser"
-version = "0.0.3"
+version = "0.0.4"
 edition = "2018"
 license = "MIT"
 description = "A parser written in Rust for CookLang"
