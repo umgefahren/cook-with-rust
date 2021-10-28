@@ -1,2 +1,2 @@
 [workspace]
-members = ["parser"]
+members = ["parser", "cook-markdown", "cli"]

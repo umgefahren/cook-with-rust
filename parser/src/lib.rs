@@ -17,19 +17,19 @@ pub struct CookParser;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Recipe {
-    source: String,
-    metadata: Metadata,
-    instruction: String,
+    pub source: String,
+    pub metadata: Metadata,
+    pub instruction: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Metadata {
-    servings: Option<Vec<usize>>,
-    ominous: HashMap<String, String>,
-    ingredients: HashMap<String, Ingredient>,
-    ingredients_specifiers: Vec<IngredientSpecifier>,
-    cookware: Vec<String>,
-    timer: Vec<Timer>,
+    pub servings: Option<Vec<usize>>,
+    pub ominous: HashMap<String, String>,
+    pub ingredients: HashMap<String, Ingredient>,
+    pub ingredients_specifiers: Vec<IngredientSpecifier>,
+    pub cookware: Vec<String>,
+    pub timer: Vec<Timer>,
 }
 
 impl Metadata {
@@ -40,26 +40,26 @@ impl Metadata {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Timer {
-    amount: f64,
-    unit: String,
+    pub amount: f64,
+    pub unit: String,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct IngredientSpecifier {
-    ingredient: String,
-    amount_in_step: Amount,
+    pub ingredient: String,
+    pub amount_in_step: Amount,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Ingredient {
-    name: String,
-    id: Uuid,
-    amount: Option<Amount>,
-    unit: Option<String>,
+    pub name: String,
+    pub id: Uuid,
+    pub amount: Option<Amount>,
+    pub unit: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-enum Amount {
+pub enum Amount {
     Multi(f64),
     Servings(Vec<f64>),
     Single(f64),
@@ -140,6 +140,10 @@ pub fn parse(inp: &str) -> Result<Recipe, Box<dyn std::error::Error>> {
                     metadata.servings = Some(servings);
                 }
             });
+        } else if e.as_rule() == Rule::comment {
+            println!("Replacing comment = {}", e.as_str());
+            source_edited = source_edited.replace(e.as_str(), "");
+
         } else {
             // println!("Line => {:?}", e);
             let _line = e.as_str().to_string().clone();
@@ -332,6 +336,9 @@ pub fn parse(inp: &str) -> Result<Recipe, Box<dyn std::error::Error>> {
                             }
                         });
                     metadata.timer.push(timer);
+                } else if ingredients_cookware.as_rule() == Rule::comment {
+                    println!("Replacing comment {}", ingredients_cookware.as_str());
+                    source_edited = source_edited.replace(ingredients_cookware.as_str(), "");
                 }
             })
         }

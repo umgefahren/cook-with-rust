@@ -5,7 +5,8 @@
 //
 
 whitespace = _{ " " }
-comment = _{"//" ~ whitespace? ~ (ASCII_ALPHANUMERIC | whitespace)* }
+comment = {"//" ~ (" ")? ~ text }
+// COMMENT = _{ comment }
 name = { ASCII_ALPHANUMERIC+ }
 text = { (ASCII_ALPHANUMERIC | "-" | " ")* }
 ingredient_separator = { "|" }
@@ -25,8 +26,8 @@ property = { name ~ whitespace? ~ ":" ~ whitespace? ~ value}
 metadata = { ">>" ~ whitespace? ~ property}
 ingredient = { "@" ~ name ~ ((whitespace ~ text)+ ~ (amount_bracket | bracket) | amount_bracket?) ~ modified? }
 timer = { "~" ~ amount_bracket}
-line = {!(">>") ~ (ingredient | cookware | timer | ANY )+ }
-line_wrapper = _{ (comment? ~ NEWLINE? ~ (metadata | line) ~ whitespace? ~ comment? ~ NEWLINE?) | comment? ~ NEWLINE | NEWLINE+ }
+line = {!(">>") ~ (ingredient | cookware | timer | NEWLINE | ANY )+ }
+line_wrapper = _{ (comment? ~ NEWLINE? ~ (metadata | line) ~ whitespace? ~ comment? ~ NEWLINE?) | comment ~ NEWLINE | NEWLINE+ }
 cook_lang = {
 SOI ~
 // (comment? ~ NEWLINE)* ~
