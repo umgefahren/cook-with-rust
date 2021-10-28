@@ -2,6 +2,8 @@
 name = "cook-with-rust"
 version = "0.0.1"
 edition = "2018"
+license = "MIT"
+description = "A parser written in Rust for CookLang"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
