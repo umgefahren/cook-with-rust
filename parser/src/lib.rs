@@ -371,25 +371,25 @@ Start the timer ~{10%minutes}\n\
 
     #[test]
     fn coffee_souffle() {
-        let test_rec = read_to_string("spec/examples/Coffee Souffle.cook").unwrap();
+        let test_rec = read_to_string("../spec/examples/Coffee Souffle.cook").unwrap();
         parse(&test_rec).unwrap();
     }
 
     #[test]
     fn easy_pancakes() {
-        let test_rec = read_to_string("spec/examples/Easy Pancakes.cook").unwrap();
+        let test_rec = read_to_string("../spec/examples/Easy Pancakes.cook").unwrap();
         parse(&test_rec).unwrap();
     }
 
     #[test]
     fn fried_rice() {
-        let test_rec = read_to_string("spec/examples/Fried Rice.cook").unwrap();
+        let test_rec = read_to_string("../spec/examples/Fried Rice.cook").unwrap();
         parse(&test_rec).unwrap();
     }
 
     #[test]
     fn olivier_salad() {
-        let test_rec = read_to_string("spec/examples/Olivier Salad.cook").unwrap();
+        let test_rec = read_to_string("../spec/examples/Olivier Salad.cook").unwrap();
         parse(&test_rec).unwrap();
     }
 }
