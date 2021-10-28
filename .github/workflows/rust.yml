@@ -26,6 +26,7 @@ jobs:
           submodules: recursive
       - name: Check
         run: cargo check
+
       - name: Build
         run: cargo build
       - name: Run tests
