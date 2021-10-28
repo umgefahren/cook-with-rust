@@ -382,7 +382,6 @@ Start the timer ~{10%minutes}\n\
     }
 
     #[test]
-    #[should_panic]
     fn fried_rice() {
         let test_rec = read_to_string("spec/examples/Fried Rice.cook").unwrap();
         parse(&test_rec).unwrap();
