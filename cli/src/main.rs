@@ -22,14 +22,8 @@ enum Operations {
 
 #[derive(Debug, StructOpt)]
 enum RecipeOpt {
-    JSON {
-        #[structopt(parse(from_os_str))]
-        path: PathBuf,
-    },
-    Markdown {
-        #[structopt(parse(from_os_str))]
-        path: PathBuf,
-    },
+    JSON,
+    Markdown,
 }
 
 fn main() {
@@ -44,16 +38,14 @@ fn main() {
             let recipe = parse(&inp_recipe)
                 .expect("Error during parsing of input file");
             match operation {
-                RecipeOpt::JSON { path } => {
+                RecipeOpt::JSON => {
                     let json = serde_json::to_string(&recipe)
                         .expect("Error serializing to string.");
-                    std::fs::write(path, json)
-                        .expect("Error during writing of JSON to file");
+                    print!("{}",json)
                 }
-                RecipeOpt::Markdown { path } => {
+                RecipeOpt::Markdown => {
                     let md = cook_markdown::recipe_to_markdown(&recipe);
-                    std::fs::write(path, md)
-                        .expect("Error during writing of markdown to file");
+                    print!("{}",md)
                 }
             }
         }
