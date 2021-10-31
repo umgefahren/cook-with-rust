@@ -1,6 +1,6 @@
 [package]
 name = "cook-markdown"
-version = "0.0.1"
+version = "0.0.2"
 license = "MIT"
 edition = "2018"
 description = "A CookLang to Markdown transpiling library."
@@ -8,4 +8,7 @@ description = "A CookLang to Markdown transpiling library."
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cook-with-rust-parser = {path = "../parser" , version = "0.0.4"}
+cook-with-rust-parser = {path = "../parser" , version = "0.0.5"}
+
+[features]
+wasm = ["cook-with-rust-parser/wasm"]
