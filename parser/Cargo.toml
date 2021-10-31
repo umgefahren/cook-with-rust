@@ -12,3 +12,6 @@ pest = "2.1.3"
 pest_derive = "2.1.0"
 serde = {version = "1", features = ["derive"]}
 uuid = {version = "0.8.2", features = ["v4", "serde"]}
+
+[features]
+wasm = ["uuid/wasm-bindgen"]
