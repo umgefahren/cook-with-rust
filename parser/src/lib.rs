@@ -7,7 +7,9 @@
 extern crate pest;
 #[macro_use]
 extern crate pest_derive;
+extern crate indexmap;
 
+use indexmap::IndexMap;
 use pest::iterators::Pair;
 use pest::Parser;
 use std::boxed::Box;
@@ -49,7 +51,7 @@ pub struct Metadata {
     /// Other optional metadata contained in a [HashMap].
     pub ominous: HashMap<String, String>,
     /// Exact description of an [Ingredient] indexed by name.
-    pub ingredients: HashMap<String, Ingredient>,
+    pub ingredients: IndexMap<String, Ingredient>,
     /// Ingredient Specifier describing the mentioning of a [Ingredient]. The n-th mention of @
     /// in [Recipe::instruction] is the n-th [IngredientSpecifier] in this [Vec].
     pub ingredients_specifiers: Vec<IngredientSpecifier>,
@@ -155,7 +157,7 @@ pub fn parse(inp: &str) -> Result<Recipe, Box<dyn std::error::Error>> {
     let mut metadata = Metadata {
         servings: None,
         ominous: Default::default(),
-        ingredients: HashMap::new(),
+        ingredients: IndexMap::new(),
         ingredients_specifiers: vec![],
         cookware: vec![],
         timer: vec![],
